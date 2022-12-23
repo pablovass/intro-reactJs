@@ -8,6 +8,17 @@ npx jest src/**test**/index.test.js
 
 npm rum test src/**test**/index.test.js
 
+va en el json{"test:watch":"jest --watch"}
+npm rum test:watch
+
+## si estas en win 10 o 11
+
+Set-ExecutionPolicy Unrestricted
+
+## informes de
+
+jest --coverage
+
 ## el proyecto se creo asi
 
 npx create-react-app app-test --scripts-version 3.1.1
