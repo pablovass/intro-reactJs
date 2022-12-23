@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## installar jest de forma global para hacer pruebas unitarias entre carpetas
+
+npm install -g jest
+
+npx jest src/**test**/index.test.js
+
+npm rum test src/**test**/index.test.js
+
 ## el proyecto se creo asi
 
 npx create-react-app app-test --scripts-version 3.1.1
