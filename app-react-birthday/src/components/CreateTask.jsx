@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import ModalForm from "./ModalForm";
 
 const CreateTask = ({ tasks, setTasks }) => {
-  const [showMyModal, setShowMyModal] = useState(false);
+  const [showModalForm, setShowModalForm] = useState(false);
   const [task, setTask] = useState({
     id: "",
     name: "",
@@ -35,8 +35,8 @@ const CreateTask = ({ tasks, setTasks }) => {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (showMyModal && !e.target.closest(".modal")) {
-        setShowMyModal(false);
+      if (showModalForm && !e.target.closest(".modal")) {
+        setShowModalForm(false);
       }
     };
 
@@ -44,14 +44,14 @@ const CreateTask = ({ tasks, setTasks }) => {
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [showMyModal]);
+  }, [showModalForm]);
 
   return (
     <form onSubmit={handleSubmit}>
-      <ModalForm onClose={() => setShowMyModal(false)} visible={showMyModal} />
+      <ModalForm onClose={() => setShowModalForm(false)} visible={showModalForm} />
       <button
         className="bg-cyan-500 rounded-md px-4 h-12 text-white hover:scale-95 transition text-xl"
-        onClick={() => setShowMyModal(true)}
+        onClick={() => setShowModalForm(true)}
       >
         CARGA PERSONA
       </button>
