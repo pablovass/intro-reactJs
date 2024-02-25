@@ -1,6 +1,7 @@
 import Task from "./Task";
-import { useDrag, useDrop } from "react-dnd";
+import {  useDrop } from "react-dnd";
 import toast from "react-hot-toast";
+
 ///ESTO ES UN COMPONENTE
 // las columnas de donde van a esta las listas
 const Section = ({ status, tasks, setTasks, todos, inProgress, closed }) => {
