@@ -22,7 +22,7 @@ const CreateTask = ({ tasks, setTasks }) => {
       localStorage.setItem("tasks", JSON.stringify(list));
       return list;
     });
-    toast.success("Tast Created");
+    toast.success("Tast Created")
     setTask({
         id: "",
         name: "",
