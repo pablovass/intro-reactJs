@@ -88,14 +88,19 @@ const Header = ({ text, bg, count }) => {
 };
 ///OTRO COMPONENTE
 const Task = ({ task, tasks, setTasks }) => {
+    // desde handle tenes haceso a la logica de borrado de items
   const handleRemove = (id) => {
-    console.log(id);
+  //  console.log(id);
+    const fTasks=tasks.filter(t=>t.id !==id);
+    localStorage.setItem("tasks",JSON.stringify(fTasks));
+    setTasks(fTasks)
+    toast("Task removed",{icon:"💀"});
   };
   return (
     <div className={`relative p-4 mt-8 shadow-sm rounded-sm cursor-grab`}>
       <p>{task.name}</p>
       <button
-        className="absolute button-1 right-1 text-slate-400"
+        className="absolute bottom-1 right-1 text-slate-500"
         onClick={() => handleRemove(task.id)}
       >
         <svg
