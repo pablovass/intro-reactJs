@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
-
+import React, { useRef, useState, useEffect } from "react";
+import EditSvg from './EditSvg'
+import RemoveSvg from './RemoveSvg'
 const UserData = ({ visible, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -10,6 +11,8 @@ const UserData = ({ visible, onClose }) => {
     phone: "",
     statusDB: ""
   });
+
+  const [userData, setUserData] = useState([]); // Arreglo para almacenar los datos de usuario
 
   const modalRef = useRef(null);
 
@@ -31,80 +34,68 @@ const UserData = ({ visible, onClose }) => {
     }));
   };
 
+  useEffect(() => {
+    // Aquí puedes cargar los datos de usuario desde alguna fuente externa, como una API o el localStorage
+    // Por ahora, inicializamos userData con datos de ejemplo
+    const exampleData = [
+      {
+        id: 1,
+        name: "John",
+        lastName: "Doe",
+        birthdate: "1990-01-01",
+        documentNumber: "123456789",
+        email: "john@example.com",
+        phone: "123-456-789",
+        statusDB: "Active",
+        status: "Active"
+      },
+ 
+    ];
+    setUserData(exampleData);
+  }, []); // Este efecto se ejecuta solo una vez al montar el componente
+
   if (!visible) return null;
 
   return (
     <div
-    className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm z-50" 
-    onClick={handleClickOutside}
+      className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm z-50"
+      onClick={handleClickOutside}
     >
-      <div ref={modalRef} className="bg-white p-2 rounded-md">
-        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white p-2 rounded w-72" onClick={handleFormClick}>
-            <h1 className="font-semibold text-center text-xl text-gray-700">
-              Welcome back
-            </h1>
-            <p className="text-center text-gray-700 mb-5">Sign in</p>
+      <div ref={modalRef} className="bg-white p-4 rounded-lg">
+        <h2>User Data</h2>
+       
+        <ul>
+          {userData.map((data) => (
+            <li key={data.id}>
+              <p>Name: {data.name}</p>
+              <p>Last Name: {data.lastName}</p>
+              <p>Birthdate: {data.birthdate}</p>
+              <p>Document Number: {data.documentNumber}</p>
+              <p>Email: {data.email}</p>
+              <p>Phone: {data.phone}</p>
+              <p>Status DB: {data.statusDB}</p>
+              <p>Status: {data.status}</p>
+              {/* Aquí puedes agregar botones u otros elementos para interactuar con los datos de usuario */}
+              <div className="flex space-x-4">
+                <button>
+                  {/* Aquí reemplaza 'EditSvg' con el componente SVG de edición */}
+                  <EditSvg />
+                </button>
+                <button>
+                  {/* Aquí reemplaza 'RemoveSvg' con el componente SVG de eliminación */}
+                  <RemoveSvg />
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
 
-            <div className="flex flex-col">
-  <input
-    type="text"
-    name="lastName"
-    value={formData.lastName}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Last Name"
-  />
-  <input
-    type="text"
-    name="birthdate"
-    value={formData.birthdate}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Birthdate"
-  />
-  <input
-    type="text"
-    name="documentNumber"
-    value={formData.documentNumber}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Document Number"
-  />
-  <input
-    type="text"
-    name="email"
-    value={formData.email}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Email"
-  />
-  <input
-    type="text"
-    name="phone"
-    value={formData.phone}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Phone"
-  />
-  <input
-    type="text"
-    name="statusDB"
-    value={formData.statusDB}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Status DB"
-  />
-</div>
-
-            <div className="text-center">
-              <button className="px-5 py-2 bg-gray-700 text-white rounded">
-                Sign in
-              </button>
-            </div>
-          </div>
-        </div>
+        {/* Aquí puedes agregar cualquier otro contenido o elementos del modal */}
+        
+        
       </div>
+     
+        
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDrag } from "react-dnd";
 import toast from "react-hot-toast";
-import RemoveSvg from "./RemoveSvg";
+import DeleteSvg from "./DeleteSvg";
 import SeeSvg from "./SeeSvg";
 import UserData from "./UserData";
 
@@ -23,12 +23,12 @@ const Task = ({ task, tasks, setTasks }) => {
   }));
   console.log(isDragging);
   // desde handle tenes haceso a la logica de borrado de items
-  const handleRemove = (id) => {
+  const handleDelete = (id) => {
     //  console.log(id);
     const fTasks = tasks.filter((t) => t.id !== id);
     localStorage.setItem("tasks", JSON.stringify(fTasks));
     setTasks(fTasks);
-    toast("Task removed", { icon: "💀" });
+    toast("Task Deleted", { icon: "💀" });
   };
   return (
     <div
@@ -42,9 +42,9 @@ const Task = ({ task, tasks, setTasks }) => {
       <div>
         <button
           className="absolute bottom-1 right-1 text-slate-500"
-          onClick={() => handleRemove(task.id)}
+          onClick={() => handleDelete(task.id)}
         >
-          <RemoveSvg />
+          <DeleteSvg />
         </button>
       </div>
 
