@@ -2,7 +2,6 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import toast from 'react-hot-toast';
 
-///OTRO COMPONENTE
 const Task = ({ task, tasks, setTasks }) => {
     // esta contante es la que me deja moverme de constado
     const [{ isDragging }, drag] = useDrag(() => ({
