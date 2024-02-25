@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import toast  from "react-hot-toast"; 
+import toast from "react-hot-toast";
 
 const ListTasks = ({ tasks, setTasks }) => {
   const [todos, setTodos] = useState([]);
@@ -30,22 +30,24 @@ const ListTasks = ({ tasks, setTasks }) => {
           inProgress={inProgress}
           closed={closed}
         />
+        //<Section
       ))}
     </div>
   );
 };
 
 export default ListTasks;
-// las columnas de donde van a esta las listas
 
+//ESTO ES UN COMPONENTE
+// las columnas de donde van a esta las listas
 const Section = ({ status, tasks, setTasks, todos, inProgress, closed }) => {
-    const[{isOver},drop]=useDrop(()=>({
-        accept:"task",
-        drop:(item)=>addItemToSection(item.id),
-        collect:(monitor)=>({
-            isOver:!!monitor.isDragging(),
-        }),
-    }));
+  //   const[{isOver},drop]=useDrop(()=>({
+  //       accept:"task",
+  //       drop:(item)=>addItemToSection(item.id),
+  //       collect:(monitor)=>({
+  //           isOver:!!monitor.isDragging(),
+  //       }),
+  //   }));
   let text = "Todo";
   let bg = "bg-slate-500";
   let tasksToMap = todos;
@@ -60,21 +62,21 @@ const Section = ({ status, tasks, setTasks, todos, inProgress, closed }) => {
     bg = "bg-green-500";
     tasksToMap = closed;
   }
-const addItemToSection=(id)=>{
-    console.log("droped",id);
-}
+
+  const addItemToSection = (id) => {
+    console.log("droped", id);
+  };
   return (
     <div className={`w-64`}>
       <Header text={text} bg={bg} count={tasksToMap.length} />
 
-      {tasksToMap.length > length &&
-        tasksToMap.map((map) => (
-          <Task key={task.id} task={task} tasks={tasks} setTasks={setTasks} />
-        ))}
+      {tasksToMap.length > length && tasksToMap.map((task) => ( // Usa task como la variable del ciclo
+    <Task key={task.id} task={task} tasks={tasks} setTasks={setTasks} />
+))}
     </div>
   );
 };
-
+///ESTO ES OTRO COMPONENTE
 const Header = ({ text, bg, count }) => {
   return (
     <div className={`${bg} flex items-center h-12 pl-4`}>
@@ -85,11 +87,11 @@ const Header = ({ text, bg, count }) => {
     </div>
   );
 };
-
+///OTRO COMPONENTE
 const Task = ({ task, tasks, setTasks }) => {
-     const handleRemove=(id)=>{
-        console.log(id);
-     }
+  const handleRemove = (id) => {
+    console.log(id);
+  };
   return (
     <div className={`relative p-4 mt-8 shadow-sm rounded-sm cursor-grab`}>
       <p>{task.name}</p>
