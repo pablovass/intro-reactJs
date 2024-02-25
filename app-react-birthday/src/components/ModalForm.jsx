@@ -35,8 +35,8 @@ const ModalForm = ({ visible, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm"
-      onClick={handleClickOutside}
+    className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm z-50" 
+    onClick={handleClickOutside}
     >
       <div ref={modalRef} className="bg-white p-2 rounded-md">
         <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center">
