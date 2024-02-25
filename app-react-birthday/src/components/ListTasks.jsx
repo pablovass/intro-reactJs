@@ -52,7 +52,7 @@ const Section = ({ status, tasks, setTasks, todos, inProgress, closed }) => {
   let bg = "bg-slate-500";
   let tasksToMap = todos;
 
-  if (status === "inProgress") {
+  if (status === "inprogress") {
     text = "In Progress";
     bg = "bg-purple-500";
     tasksToMap = inProgress;
@@ -69,10 +69,9 @@ const Section = ({ status, tasks, setTasks, todos, inProgress, closed }) => {
   return (
     <div className={`w-64`}>
       <Header text={text} bg={bg} count={tasksToMap.length} />
-
-      {tasksToMap.length > length && tasksToMap.map((task) => ( // Usa task como la variable del ciclo
-    <Task key={task.id} task={task} tasks={tasks} setTasks={setTasks} />
-))}
+     {tasksToMap.length > 0 &&  tasksToMap.map((task) => (
+          <Task key={task.id} task={task} tasks={tasks} setTasks={setTasks} />
+        ))}
     </div>
   );
 };
