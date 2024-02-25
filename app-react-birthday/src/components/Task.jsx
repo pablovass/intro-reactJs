@@ -1,10 +1,18 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useDrag } from 'react-dnd';
 import toast from 'react-hot-toast';
 import RemoveSvg from './RemoveSvg';
 import SeeSvg from './SeeSvg';
+import UserData from'./UserData';
 
 const Task = ({ task, tasks, setTasks }) => {
+  const [showUserData, setShowUserData] = useState(false);
+
+  const handleOutsideClick = (e) => {
+    if (showUserData && !e.target.closest(".modal")) {
+      setShowUserData(false);
+    }
+  };
     // esta contante es la que me deja moverme de constado
     const [{ isDragging }, drag] = useDrag(() => ({
       type: "task",
@@ -38,11 +46,16 @@ const Task = ({ task, tasks, setTasks }) => {
           <RemoveSvg/>
           
         </button>
-        <button className="absolute top-1 right-1 flex space-x-2"
-         onClick={() => handleEdit(task.id)}>
+
+       <div onClick={handleOutsideClick} >
+       
+        <button onClick={() => setShowUserData(true)} className="absolute top-1 right-1 flex space-x-2">
+        
           <SeeSvg/>
           
         </button>
+        <UserData onClose={() => setShowUserData(false)} visible={showUserData} />
+       </div>
       </div>
     );
   };
