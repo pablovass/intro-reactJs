@@ -29,7 +29,6 @@ const ListTasks = ({ tasks, setTasks }) => {
           inProgress={inProgress}
           closed={closed}
         />
-        //<Section
       ))}
     </div>
   );
