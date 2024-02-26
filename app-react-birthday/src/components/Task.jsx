@@ -4,16 +4,29 @@ import toast from "react-hot-toast";
 import DeleteSvg from "./svg/DeleteSvg";
 import SeeSvg from "./svg/SeeSvg";
 import UserData from "./UserData";
+import { deleteTask, getTask } from "../api/task.api";
 
-const Task = ({ task, tasks, setTasks }) => {
+const Task = ({ task, setTasks }) => {
   const [showUserData, setShowUserData] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   const handleOutsideClick = (e) => {
     if (showUserData && !e.target.closest(".modal")) {
       setShowUserData(false);
     }
   };
-  // esta contante es la que me deja moverme de constado
+
+  const handleSeeUserData = async () => {
+    try {
+      const response = await getTask(task.id);
+      setUserData(response.data);
+      setShowUserData(true);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      toast.error("Error fetching user data");
+    }
+  };
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
@@ -21,22 +34,23 @@ const Task = ({ task, tasks, setTasks }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  console.log(isDragging);
-  // desde handle tenes haceso a la logica de borrado de items
-  const handleDelete = (id) => {
-    //  console.log(id);
-    const fTasks = tasks.filter((t) => t.id !== id);
-    localStorage.setItem("tasks", JSON.stringify(fTasks));
-    setTasks(fTasks);
-    toast("Task Deleted", { icon: "💀" });
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteTask(id);
+      // handle delete logic...
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error("Error deleting task");
+    }
   };
+
   return (
     <div
       ref={drag}
       className={`relative p-4 mt-8 shadow-sm rounded-sm cursor-grab ${
         isDragging ? "opacity-25" : "opacity-100"
-      } 
-      `}
+      }`}
     >
       <p>{task.name}</p>
       <div>
@@ -50,14 +64,15 @@ const Task = ({ task, tasks, setTasks }) => {
 
       <div onClick={handleOutsideClick}>
         <button
-          onClick={() => setShowUserData(true)}
+          onClick={handleSeeUserData}
           className="absolute top-1 right-1 flex space-x-2"
         >
           <SeeSvg />
         </button>
         <UserData
-          onClose={() => setShowUserData(true)}
+          onClose={() => setShowUserData(false)}
           visible={showUserData}
+          userData={userData}
         />
       </div>
     </div>
