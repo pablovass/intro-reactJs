@@ -4,19 +4,18 @@ import Section from "./Section";
 const ListTasks = ({ tasks, setTasks }) => {
   const [todos, setTodos] = useState([]);
   const [inProgress, setInpregress] = useState([]);
-  const [closed, setClosed] = useState([]);
+  
   
   useEffect(() => {
     const fTodos = tasks.filter((task) => task.status === "todo");
     const fInProgress = tasks.filter((task) => task.status === "inprogress");
-    const fClosed = tasks.filter((task) => task.status === "closed");
-
+  
     setTodos(fTodos);
     setInpregress(fInProgress);
-    setClosed(fClosed);
+  
   }, [tasks]);
 
-  const statuses = ["todo", "inprogress", "closed"];
+  const statuses = ["todo", "inprogress"];
 
   return (
     <div className="flex gap-16">
@@ -28,7 +27,6 @@ const ListTasks = ({ tasks, setTasks }) => {
           setTasks={setTasks}
           todos={todos}
           inProgress={inProgress}
-          closed={closed}
         />
       ))}
     </div>
