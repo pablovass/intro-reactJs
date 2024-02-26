@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import EditSvg from './EditSvg'
-import RemoveSvg from './RemoveSvg'
+import EditSvg from './svg/EditSvg'
+import RemoveSvg from './svg/RemoveSvg'
 const UserData = ({ visible, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",

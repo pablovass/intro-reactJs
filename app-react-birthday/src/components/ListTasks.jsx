@@ -1,3 +1,4 @@
+// se listan los componentes 
 import { useEffect, useState } from "react";
 import Section from "./Section";
 

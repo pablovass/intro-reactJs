@@ -1,17 +1,57 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { createTask, disableTask, updateTask, getTask } from "../api/task.api";
+import { useParams } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const ModalForm = ({ visible, onClose }) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    lastName: "",
-    birthdate: "",
-    documentNumber: "",
-    email: "",
-    phone: "",
-    statusDB: ""
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm();
+  const params = useParams();
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (params.id) {
+      updateTask(data);
+      toast.success('update exitoso');
+    } else {
+      await createTask(data);
+
+      toast.success('tarea creada', {
+        position: "bottom-right",
+        style: {
+          background: "#101010",
+          color: "#fff"
+        }
+      });
+    }
+    onClose();
   });
 
+  useEffect(() => {
+    async function loadTask() {
+      if (params.id) {
+        const res = await getTask(params.id);
+        setValue('name', res.data.name);
+        setValue('lastName', res.data.lastName);
+        setValue('birthdate', res.data.birthdate);
+        setValue('documentNumber', res.data.documentNumber);
+        setValue('email', res.data.email);
+        setValue('phone', res.data.phone);
+        console.log(res);
+      }
+    }
+    loadTask();
+  }, [params.id]);
+
   const modalRef = useRef(null);
+
+  const handleClickInside = (event) => {
+    event.stopPropagation();
+  };
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -19,91 +59,84 @@ const ModalForm = ({ visible, onClose }) => {
     }
   };
 
-  const handleFormClick = (event) => {
-    event.stopPropagation(); // Evita que el clic dentro del formulario se propague al contenedor del modal
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
   if (!visible) return null;
 
   return (
     <div
-    className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm z-50" 
-    onClick={handleClickOutside}
+      className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-30 backdrop-blur-sm z-50"
+      onClick={handleClickOutside}
     >
-      <div ref={modalRef} className="bg-white p-2 rounded-md">
-        <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-white p-2 rounded w-72" onClick={handleFormClick}>
-            <h1 className="font-semibold text-center text-xl text-gray-700">
-              Welcome back
-            </h1>
-            <p className="text-center text-gray-700 mb-5">Sign in</p>
+      <div ref={modalRef} className="max-w-xl mx-auto" onClick={handleClickInside}>
+        <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="name"
+          {...register("name", { required: true })}
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+        />
+        {errors.name && <span>this field is required</span>}
 
-            <div className="flex flex-col">
-  <input
-    type="text"
-    name="lastName"
-    value={formData.lastName}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Last Name"
-  />
-  <input
-    type="text"
-    name="birthdate"
-    value={formData.birthdate}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Birthdate"
-  />
-  <input
-    type="text"
-    name="documentNumber"
-    value={formData.documentNumber}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Document Number"
-  />
-  <input
-    type="text"
-    name="email"
-    value={formData.email}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Email"
-  />
-  <input
-    type="text"
-    name="phone"
-    value={formData.phone}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Phone"
-  />
-  <input
-    type="text"
-    name="statusDB"
-    value={formData.statusDB}
-    onChange={handleChange}
-    className="border border-gray-700 p-2 rounded mb-5"
-    placeholder="Status DB"
-  />
-</div>
+        <input
+          type="text"
+          placeholder="lastName"
+          {...register("lastName", { required: true })}
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+        />
+        <input
+          type="date"
+          placeholder="Fecha de nacimiento"
+          {...register("birthdate", { required: true })}
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+        />
 
-            <div className="text-center">
-              <button className="px-5 py-2 bg-gray-700 text-white rounded">
-                Sign in
+        <input
+          type="text"
+          placeholder="documentNumber"
+          {...register("documentNumber", { required: true })}
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+        />
+        <input
+          type="text"
+          placeholder="email"
+          {...register("email", { required: true })}
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+        />
+        <input
+          type="text"
+          placeholder="phone"
+          {...register("phone", { required: true })}
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
+        />
+
+          {errors.name && <span>this field is required</span>}
+
+          {/* Resto de los campos de entrada */}
+
+          <button className="bg-indigo-500 p-3 rounded-lg block w-full mt-3">Save</button>
+          {params.id && (
+            <div className="flex justify-end">
+              <button
+                className="bg-red-500 p-3 rounded-lg w-48 mt-3"
+                onClick={async () => {
+                  const accepted = window.confirm("are you sure?");
+                  if (accepted) {
+                    await disableTask(params.id);
+                    toast.success('tarea Eliminada', {
+                      position: "bottom-right",
+                      style: {
+                        background: "#101010",
+                        color: "#fff"
+                      }
+                    });
+                    onClose();
+                  }
+                }}
+              >
+                Delete
               </button>
             </div>
-          </div>
-        </div>
+          )}
+        </form>
       </div>
     </div>
   );

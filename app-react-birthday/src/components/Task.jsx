@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDrag } from "react-dnd";
 import toast from "react-hot-toast";
-import DeleteSvg from "./DeleteSvg";
-import SeeSvg from "./SeeSvg";
+import DeleteSvg from "./svg/DeleteSvg";
+import SeeSvg from "./svg/SeeSvg";
 import UserData from "./UserData";
 
 const Task = ({ task, tasks, setTasks }) => {
