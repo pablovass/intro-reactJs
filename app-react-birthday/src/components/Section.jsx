@@ -13,20 +13,16 @@ const Section = ({ status, tasks, setTasks, todos, inProgress, closed }) => {
     }),
   }));
 
-  let text = "Todo";
+  let text = "Personas";
   let bg = "bg-slate-500";
   let tasksToMap = todos;
 
   if (status === "inprogress") {
-    text = "In Progress";
+    text = "Invitados";
     bg = "bg-purple-500";
     tasksToMap = inProgress;
   }
-  if (status === "closed") {
-    text = "Closed";
-    bg = "bg-green-500";
-    tasksToMap = closed;
-  }
+
 
   const addItemToSection = (id) => {
     setTasks((prev) => {
