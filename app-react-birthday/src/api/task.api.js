@@ -12,6 +12,8 @@ export const createTask = (task) => {
 }
 export const disableTask = (id) => tasksApi.delete(`/${id}/disable`);
 
+export const deleteTask = (id) => tasksApi.delete(`/${id}/delete`);
+
 //export const updateTask = (task) => tasksApi.put("/update", task);
 
 export const getTask =(id)=>tasksApi.get(`/${id}`);

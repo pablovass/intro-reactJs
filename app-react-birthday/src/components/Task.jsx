@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import DeleteSvg from "./svg/DeleteSvg";
 import SeeSvg from "./svg/SeeSvg";
 import UserData from "./UserData";
+import { deleteTask } from "../api/task.api";
 
 const Task = ({ task, tasks, setTasks }) => {
   const [showUserData, setShowUserData] = useState(false);
@@ -13,7 +14,7 @@ const Task = ({ task, tasks, setTasks }) => {
       setShowUserData(false);
     }
   };
-  // esta contante es la que me deja moverme de constado
+  
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
@@ -21,22 +22,26 @@ const Task = ({ task, tasks, setTasks }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  console.log(isDragging);
-  // desde handle tenes haceso a la logica de borrado de items
-  const handleDelete = (id) => {
-    //  console.log(id);
-    const fTasks = tasks.filter((t) => t.id !== id);
-    localStorage.setItem("tasks", JSON.stringify(fTasks));
-    setTasks(fTasks);
-    toast("Task Deleted", { icon: "💀" });
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteTask(id); // Llama a la función para eliminar el elemento de la base de datos
+      const fTasks = tasks.filter((t) => t.id !== id);
+      localStorage.setItem("tasks", JSON.stringify(fTasks));
+      setTasks(fTasks);
+      toast.success("Task Deleted", { icon: "💀" });
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error("Error deleting task");
+    }
   };
+
   return (
     <div
       ref={drag}
       className={`relative p-4 mt-8 shadow-sm rounded-sm cursor-grab ${
         isDragging ? "opacity-25" : "opacity-100"
-      } 
-      `}
+      }`}
     >
       <p>{task.name}</p>
       <div>
@@ -55,10 +60,7 @@ const Task = ({ task, tasks, setTasks }) => {
         >
           <SeeSvg />
         </button>
-        <UserData
-          onClose={() => setShowUserData(true)}
-          visible={showUserData}
-        />
+        <UserData onClose={() => setShowUserData(true)} visible={showUserData} />
       </div>
     </div>
   );
