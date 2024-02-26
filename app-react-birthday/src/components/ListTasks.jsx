@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
+// se listan los componentes 
+import { useEffect, useState } from "react";
 import Section from "./Section";
 
 const ListTasks = ({ tasks, setTasks }) => {
-  // Verificar si tasks es nulo o indefinido antes de realizar cualquier operación
-  if (!tasks) {
-    return null;
-  }
-
   const [todos, setTodos] = useState([]);
-  const [inProgress, setInProgress] = useState([]);
+  const [inProgress, setInpregress] = useState([]);
+  
   
   useEffect(() => {
     const fTodos = tasks.filter((task) => task.status === "todo");
     const fInProgress = tasks.filter((task) => task.status === "inprogress");
   
     setTodos(fTodos);
-    setInProgress(fInProgress);
+    setInpregress(fInProgress);
   
   }, [tasks]);
 
