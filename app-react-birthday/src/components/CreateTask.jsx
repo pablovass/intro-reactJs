@@ -1,51 +1,26 @@
-import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState } from "react";
+import ModalForm from "./ModalForm";
 
-const CreateTask = ({ tasks, setTasks }) => {
-  const [task, setTask] = useState({
-    id: "",
-    name: "",
-    status: "todo", //can also bi inprogress or closed
-  });
+const CreateTask = () => {
+  const [showModalForm, setShowModalForm] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (task.name.length < 3)
-      return toast.error("a task must have more than 3 characters");
-
-    if (task.name.length > 100)
-      return toast.error("A task must no bi more than 100 characters");
-
-    setTasks((prev) => {
-      const list = prev ? [...prev, task] : [task]; // Use conditional spread
-      localStorage.setItem("tasks", JSON.stringify(list));
-      return list;
-    });
-    toast.success("Tast Created");
-    setTask({
-        id: "",
-        name: "",
-        status: "todo"
-    });
+  const handleOutsideClick = (e) => {
+    if (showModalForm && !e.target.closest(".modal")) {
+      setShowModalForm(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="border-2 border-slate-400 bg-slate-100 rounded-md mr-4 h-12 w-64 px-1"
-        value={task.name}
-        onChange={(e) =>
-          setTask({ ...task, id: uuidv4(), name: e.target.value })
-        }
-      />
-      <button className="bg-cyan-500 rounded-md px-4 h-12 text-white">
-        Create
+    <div onClick={handleOutsideClick}>
+      <button
+        className="bg-cyan-500 rounded-md px-4 h-12 text-white hover:scale-95 transition text-xl"
+        onClick={() => setShowModalForm(true)}
+      >
+        CARGA PERSONA
       </button>
-    </form>
+      <ModalForm onClose={() => setShowModalForm(false)} visible={showModalForm} />
+    </div>
   );
 };
-export default CreateTask;
 
-// este el componente donde se crean las tareas y esta en el centro de la pantalla
+export default CreateTask;
