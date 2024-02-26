@@ -15,7 +15,7 @@ const ListTasks = ({ tasks, setTasks }) => {
   
   }, [tasks]);
 
-  const statuses = ["todo", "inprogress"];
+  const statuses = ["personas", "invitados"];
 
   return (
     <div className="flex gap-16">
