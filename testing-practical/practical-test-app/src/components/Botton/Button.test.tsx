@@ -7,7 +7,8 @@ import "@testing-library/jest-dom";
 describe("Button component", () => {
   it("renders the button with the correct label", () => {
     render(<Button label="Click me" onClick={() => {}} />);
-    expect(screen.getByText("Click me")).toBeInTheDocument();
+   // expect(screen.getByText("Click me")).toBeInTheDocument(); el texto se encuentra en el documento es decir que se renderizo
+   expect(screen.getByText("Click me")).toBeTruthy;
   });
 
   it("calls onClick when clicked", () => {

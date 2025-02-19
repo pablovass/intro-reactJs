@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { describe, it, expect, beforeEach } from "@jest/globals";
+import { describe, it, expect} from "@jest/globals";
 import Button from "./Button";
 import '@testing-library/jest-dom';
 
