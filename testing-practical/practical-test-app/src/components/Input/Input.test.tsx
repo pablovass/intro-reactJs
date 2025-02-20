@@ -23,3 +23,4 @@ describe("Input Component", () => {
         });
     });
 });
+//https://platzi.com/home/clases/11224-react-testing-library/72384-desarrollo-guiado-por-pruebas-tdd-en-react/
