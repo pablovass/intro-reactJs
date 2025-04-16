@@ -10,9 +10,9 @@ export default function Home() {
    <title>Pablo Page</title>
    <meta name="description" content="Creado por pablo" />
    </Head>
-      <main>
-        <h1>Hola mundo</h1>
-      </main>
+   <h1 className="text-3xl font-bold underline">
+      Hello world!
+</h1>
       <footer>
        
       </footer>
